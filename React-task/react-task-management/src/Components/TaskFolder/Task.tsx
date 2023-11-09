@@ -19,9 +19,9 @@ const Task = ({ task, onDelete, openModalProp }: { task: TaskProps; onDelete: (i
                 </div>
             </div>
 
-            <div className="bg-red-500 flex items-center space-x-2 text-2xl p-1.5 cursor-pointer">
-                <span className="text-green-700" onClick={() => openModalProp(task)}><CiEdit /></span>
-                <span className="text-red-700" onClick={() => task.id !== null && onDelete(task.id)}><RiDeleteBin6Line /></span>
+            <div className=" flex items-center space-x-2 text-2xl p-1.5 cursor-pointer">
+                <span className="text-green-700 rounded-full border border-green-700 w-8 flex justify-center items-center " onClick={() => openModalProp(task)}><CiEdit /></span>
+                <span className="text-red-700 rounded-full border border-red-700 w-8 flex justify-center items-center" onClick={() => task.id !== null && onDelete(task.id)}><RiDeleteBin6Line /></span>
             </div>
         </div>
     )

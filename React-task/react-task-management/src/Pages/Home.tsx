@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import Tasks from '../Components/TaskFolder/Tasks'
-import { TaskProps } from '../Components/Reusable/Properties';
+import { AddTaskFormProps, TaskProps } from '../Components/Reusable/Properties';
 import AddTaskForm from '../Components/AddTaskForm';
 import UpdateModal from '../Components/UpdateModal';
 import NoTask from '../Components/NoTask';
+import Pagination from '../Components/Pagination';
+import { PageChangeProps } from '../Components/Reusable/Properties'
+
+//useContext
+// import {AnimatorProvider} from '../Context/AnimatorContext';
 
 const Home = () => {
 
@@ -14,6 +19,16 @@ const Home = () => {
 
     const [tasks, setTasks] = useState<TaskProps[]>([
     ])
+
+    //Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage, setPostPerPage] = useState(4);
+
+
+    const lastPostIndex = currentPage * postsPerPage;
+    const firstPostIndex = lastPostIndex - postsPerPage;
+    const currentPosts = tasks.slice(firstPostIndex, lastPostIndex);
+
 
 
 
@@ -67,6 +82,7 @@ const Home = () => {
 
     const handleBtnChange = (): void => {
         setShowAddTask(!showAddTask);
+
     }
 
     const OpenModalFunction = (taskv: TaskProps): void => {
@@ -80,6 +96,7 @@ const Home = () => {
 
     const CloseModalFunction = (): void => {
         setOpenModal(false);
+
     }
 
     const Update = async (receiveTask: TaskProps): Promise<void> => {
@@ -109,21 +126,31 @@ const Home = () => {
 
     }
 
+    const ChangeAnimateState = () => {
+
+    }
+
 
     return (
-        <div className="bg-red-500 w-full min-h-screen flex flex-col justify-center items-center">
+        <div className=" w-full min-h-screen flex flex-col justify-center items-center">
             <h5 className="text-gray-500 text-sm">Manage Your Task With Us...</h5>
             <h1 className="text-2xl font-bold">Task Management</h1>
-            <div className="bg-blue-500  w-[50%] sm:w-[70%] lg:w-[50%] min-h-[80%]">
+            <div className="bg-blue-500  w-[50%] sm:w-[70%] lg:w-[50%] min-h-[80%] shadow-2xl">
 
-                <Header handleBtnChange={handleBtnChange} showAddTask={showAddTask} />
-                {showAddTask && <AddTaskForm onAdd={addTask} />}
+                <Header handleBtnChange={handleBtnChange} showAddTask={showAddTask} ChangeAnimateState={ChangeAnimateState} />
+
+                {showAddTask &&
+                    <AddTaskForm onAdd={addTask} />
+                }
+
                 {(tasks.length > 0) ?
-                    <Tasks tasks={tasks} onDelete={deleteTask} openModalProp={OpenModalFunction} />
+                    <Tasks tasks={currentPosts} onDelete={deleteTask} openModalProp={OpenModalFunction} />
+
                     :
                     <NoTask />
                 }
-
+                <Pagination totalPosts={tasks.length} postsPerPage={postsPerPage} setCurrentPage={setCurrentPage}
+                    currentPage={currentPage} firstPostIndex={firstPostIndex} lastPostIndex={lastPostIndex} />
 
             </div>
 

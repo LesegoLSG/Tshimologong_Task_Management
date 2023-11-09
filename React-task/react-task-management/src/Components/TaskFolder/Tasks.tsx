@@ -6,10 +6,12 @@ import Task from './Task';
 const Tasks = ({ tasks, onDelete, openModalProp }: { tasks: TaskProps[]; onDelete: (id?: number) => void; openModalProp: (taskv: TaskProps) => void }) => {
 
 
+
     return (
         <>
             {tasks.map((task: TaskProps) => (
                 <Task key={task.id} task={task} onDelete={onDelete} openModalProp={openModalProp} />
+
             ))
 
             }

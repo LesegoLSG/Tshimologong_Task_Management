@@ -1,0 +1,25 @@
+// import React, { createContext, useContext, useState, ReactNode } from 'react';
+
+// const AnimatorContext = createContext<{ animator: boolean; setAnimator: React.Dispatch<React.SetStateAction<boolean>> } | undefined>(undefined);
+
+// export function useAnimatorContext() {
+//   const context = useContext(AnimatorContext);
+//   if (context === undefined) {
+//     throw new Error('useAnimatorContext must be used within an AnimatorProvider');
+//   }
+//   return context;
+// }
+
+// type AnimatorProviderProps = {
+//   children: ReactNode;
+// };
+
+// export function AnimatorProvider({ children }: AnimatorProviderProps) {
+//   const [animator, setAnimator] = useState(false);
+
+//   return (
+//     <AnimatorContext.Provider value={{ animator, setAnimator }}>
+//       {children}
+//     </AnimatorContext.Provider>
+//   );
+// }

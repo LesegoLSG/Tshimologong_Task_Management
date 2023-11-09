@@ -1,8 +1,9 @@
 export interface ButtonProps {
-    text: string;
+    text: any;
     color: string;
     handleAddClick?: () => void;
     onAdd?: () => void;
+    handleAnimate?: () => void;
 }
 
 export interface TaskProps {
@@ -17,11 +18,13 @@ export interface TaskProps {
 export interface HeaderProps {
     handleBtnChange: () => void;
     showAddTask: boolean;
+    ChangeAnimateState: () => void;
 
 }
 
 export interface AddTaskFormProps {
     onAdd: (task: TaskProps) => void;
+
 }
 
 export interface UpdateModalProps {
@@ -30,3 +33,12 @@ export interface UpdateModalProps {
     onEdit: (task: TaskProps) => void
 }
 
+export interface PageChangeProps {
+    totalPosts: number;
+    postsPerPage: number;
+    currentPage: number;
+    firstPostIndex: number;
+    lastPostIndex: number;
+    setCurrentPage(page: number): void;
+
+}

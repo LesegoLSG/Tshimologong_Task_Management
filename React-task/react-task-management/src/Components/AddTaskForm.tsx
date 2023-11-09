@@ -9,6 +9,7 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAdd }) => {
 
 
 
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
@@ -34,7 +35,7 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAdd }) => {
     }
 
     return (
-        <form className="bg-gray-600 w-full flex flex-col py-2 " onSubmit={handleSubmit}>
+        <form className="bg-white opacity-50 w-full flex flex-col py-2 " onSubmit={handleSubmit}>
             <label className="mx-2">Task:</label>
             <input
                 className="h-8 my-2 mx-2 rounded-md"
@@ -59,7 +60,7 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAdd }) => {
                 value={taskTime}
                 onChange={(e) => setTaskTime(e.target.value)}
             />
-            <Button color="grey" text="Submit" />
+            <Button color="#4287f5" text="Submit" />
         </form>
     )
 }
