@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './Pages/Home';
+import AuthenticationPage from './Pages/AuthenticationPage';
 
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
 
       <Router>
         <Routes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<AuthenticationPage />} />
+          <Route path="/main" element={<MainPage />} />
           <Route path="*" element={<h1>Page Not Found</h1>} />
 
         </Routes>
