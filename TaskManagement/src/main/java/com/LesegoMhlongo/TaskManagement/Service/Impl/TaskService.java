@@ -1,7 +1,8 @@
-package com.LesegoMhlongo.TaskManagement.Service;
+package com.LesegoMhlongo.TaskManagement.Service.Impl;
 
 import com.LesegoMhlongo.TaskManagement.Model.Task;
 import com.LesegoMhlongo.TaskManagement.Repository.TaskRepository;
+import com.LesegoMhlongo.TaskManagement.Service.ITaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TaskService implements ITaskService{
+public class TaskService implements ITaskService {
 
     @Autowired
     private TaskRepository repo;

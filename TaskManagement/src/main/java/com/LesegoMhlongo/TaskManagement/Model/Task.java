@@ -21,6 +21,13 @@ public class Task {
     private LocalDate date;
     @Column(columnDefinition = "TIME(0)")
     private LocalTime time;
+    @Column
+    private boolean active;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private UserEntity user;
+
 
     //Parameterless constructor
     public Task() {
@@ -28,10 +35,13 @@ public class Task {
     }
 
     //parameter constructor
-    public Task(String task, LocalDate date, LocalTime time) {
+
+    public Task(String task, LocalDate date, LocalTime time, boolean active, UserEntity user) {
         this.task = task;
         this.date = date;
         this.time = time;
+        this.active = active;
+        this.user = user;
     }
 
     //Getters and setters
@@ -65,5 +75,21 @@ public class Task {
 
     public void setTime(LocalTime time) {
         this.time = time;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

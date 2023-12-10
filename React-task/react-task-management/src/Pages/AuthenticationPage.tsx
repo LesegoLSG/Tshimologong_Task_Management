@@ -9,6 +9,7 @@ const AuthenticationPage: React.FC = () => {
     const [register, setRegister] = useState(true);
     const [changeBtnName, setChangeBtnName] = useState("UP");
 
+    //Change button text 
     const Switchscreen = () => {
         setRegister(!register);
         if (register === false) {
@@ -16,6 +17,28 @@ const AuthenticationPage: React.FC = () => {
         } else if (register === true) {
             setChangeBtnName("In");
         }
+    }
+
+    const signUp = async (userObject: any) => {
+        console.log("Register button Clicked", userObject);
+        try {
+            const res = await fetch("http://localhost:8080/api/v1/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(userObject)
+
+            });
+            if (res.ok) {
+                const data = await res.json();
+                //setTasks((prevTasks) => [...prevTasks, data])
+                console.log("New Task Added");
+            } else {
+                console.error("Failed to add task");
+            }
+        } catch (error) {
+            console.error("Error adding task:", error);
+        }
+
     }
 
     return (
@@ -26,7 +49,7 @@ const AuthenticationPage: React.FC = () => {
                 {register ?
                     <Login />
                     :
-                    <Register />
+                    <Register setRegister={setRegister} signUp={signUp} />
                 }
 
             </div>
