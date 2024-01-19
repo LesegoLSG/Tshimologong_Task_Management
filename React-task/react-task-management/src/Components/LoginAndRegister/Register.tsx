@@ -61,12 +61,6 @@ const Register: React.FC<RegisterProps> = ({ setRegister, signUp }) => {
         }
     };
 
-
-
-
-
-
-
     return (
         <form className="bg-green-200 w-[80%] h-[30rem] flex flex-col justify-center items-center" onSubmit={handleSubmit}>
 
