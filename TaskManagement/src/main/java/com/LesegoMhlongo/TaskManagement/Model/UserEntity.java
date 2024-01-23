@@ -105,4 +105,12 @@ public class UserEntity implements UserDetails {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public List<Task> getTask() {
+        return task;
+    }
+
+    public void setTask(List<Task> task) {
+        this.task = task;
+    }
 }
