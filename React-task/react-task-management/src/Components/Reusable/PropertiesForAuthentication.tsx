@@ -6,3 +6,4 @@ export interface RegisterProps {
 export interface LoginProps {
     signIn: (loginObject: any) => Promise<void>;
 }
+
