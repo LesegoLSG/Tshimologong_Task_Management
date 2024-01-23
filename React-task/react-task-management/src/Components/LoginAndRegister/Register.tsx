@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RegisterProps } from '../Reusable/PropertiesForAuthentication';
+import { signUp } from '../RequestsToken/AuthService';
 
-const Register: React.FC<RegisterProps> = ({ setRegister, signUp }) => {
+const Register: React.FC<RegisterProps> = ({ setRegister }) => {
 
 
     //Error state
