@@ -1,7 +1,9 @@
 package com.LesegoMhlongo.TaskManagement.Service.Impl;
 
 import com.LesegoMhlongo.TaskManagement.Model.Task;
+import com.LesegoMhlongo.TaskManagement.Model.UserEntity;
 import com.LesegoMhlongo.TaskManagement.Repository.TaskRepository;
+import com.LesegoMhlongo.TaskManagement.Repository.UserRepository;
 import com.LesegoMhlongo.TaskManagement.Service.ITaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ public class TaskService implements ITaskService {
 
     @Autowired
     private TaskRepository repo;
+
+    private UserRepository userRepository;
 
     //Save a task
     @Override
