@@ -6,12 +6,31 @@ import AddTaskForm from '../Components/AddTaskForm';
 import UpdateModal from '../Components/UpdateModal';
 import NoTask from '../Components/NoTask';
 import Pagination from '../Components/Pagination';
-import { PageChangeProps } from '../Components/Reusable/Properties'
+import { PageChangeProps } from '../Components/Reusable/Properties';
+
+import PostService from '../Components/RequestsToken/PostService';
+import axios from 'axios';
+import { getCurrentUserEmail } from '../Components/RequestsToken/AuthService';
+
+import { logout } from '../Components/RequestsToken/AuthService';
+import authHeader from '../Components/RequestsToken/AuthHeader';
+import { useNavigate } from 'react-router-dom';
+
 
 //useContext
 // import {AnimatorProvider} from '../Context/AnimatorContext';
 
+interface UserProps {
+    firstname: string,
+    lastname: string,
+    email: string,
+    role: string,
+    tasks: []
+}
+
 const Home = () => {
+
+    const navigate = useNavigate();
 
     const [showAddTask, setShowAddTask] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -19,6 +38,8 @@ const Home = () => {
 
     const [tasks, setTasks] = useState<TaskProps[]>([
     ])
+
+
 
     //Pagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -29,23 +50,48 @@ const Home = () => {
     const firstPostIndex = lastPostIndex - postsPerPage;
     const currentPosts = tasks.slice(firstPostIndex, lastPostIndex);
 
+    const [userList, setUserList] = useState("");
 
+    const [privateData, setPrivateData] = useState([]);
 
-
+    const [user, setUser] = useState<UserProps>({
+        firstname: '',
+        lastname: '',
+        email: '',
+        role: '',
+        tasks: []
+    });
+    //Testing the public posts
     useEffect(() => {
-        const getTasks = async () => {
-            const tasksFromServer = await fetchTasks()
-            setTasks(tasksFromServer)
+        const getStringTesting = async () => {
+            try {
+                const myString = await PostService.getAllPublicPosts();
+                setUserList(myString);
+            } catch (error) {
+                console.error("Cannot retrieve string or public post");
+            }
         }
-        getTasks()
-    }, [])
+        getStringTesting();
+    }, []);
 
-    const fetchTasks = async () => {
-        const res = await fetch('http://localhost:8080/tasks/getAllTask')
-        const data = await res.json()
-        console.log(data)
-        return data
-    }
+    //Get the current logged in user
+    useEffect(() => {
+        const getUser = async () => {
+            try {
+                const myNewUser = await PostService.getCurrentUser();
+                setUser(myNewUser);
+            } catch (Error) {
+                console.error("Something went wrong");
+                // setNewUser(null);
+            }
+        };
+        getUser();
+    }, []);
+
+
+
+
+
 
     const addTask = async (task: TaskProps) => {
         console.log("Add button Clicked", task);
@@ -130,9 +176,15 @@ const Home = () => {
 
     }
 
+    const Logout = () => {
+        logout();
+        navigate("/auth");
+    }
+
 
     return (
         <div className=" w-full min-h-screen flex flex-col justify-center items-center">
+            <button onClick={Logout}> Logout</button>
             <h5 className="text-gray-500 text-sm">Manage Your Task With Us...</h5>
             <h1 className="text-2xl font-bold">Task Management</h1>
             <div className="bg-blue-500  w-[50%] sm:w-[70%] lg:w-[50%] min-h-[80%] shadow-2xl">
@@ -157,6 +209,16 @@ const Home = () => {
             {
                 openModal && <UpdateModal taskToEdit={editTask as TaskProps} closeModalProp={CloseModalFunction} onEdit={Update} />
             }
+
+            <div>
+                <h1>{userList}</h1>
+                <h1>{privateData}</h1>
+                <h1>{user.firstname}</h1>
+                <h1>{user.role}</h1>
+                <h1>{user.email}</h1>
+                <h1>{user.tasks}</h1>
+            </div>
+
         </div>
     )
 }
