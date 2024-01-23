@@ -4,9 +4,10 @@ import { BsEye } from 'react-icons/bs';
 import { BsEyeSlash } from 'react-icons/bs';
 
 import { LoginProps } from '../Reusable/PropertiesForAuthentication';
+import { signIn } from '../RequestsToken/AuthService';
 
 
-const Login: React.FC<LoginProps> = ({ signIn }) => {
+const Login = () => {
     const navigate = useNavigate();
 
     //For password show and hide
@@ -41,6 +42,8 @@ const Login: React.FC<LoginProps> = ({ signIn }) => {
 
         try {
             await signIn(loginObject);
+            navigate("/main");
+            window.location.reload();
         } catch (error) {
             console.log("Error after await", error);
         }
@@ -81,7 +84,8 @@ const Login: React.FC<LoginProps> = ({ signIn }) => {
             <h3>{loginDetails.email}</h3>
             <h3>{loginDetails.password}</h3>
             <button className="bg-red-500 my-2"
-                onClick={() => navigate("/main")}>Go to main Page</button>
+                onClick={() => navigate("/main")}
+            >Go to main Page</button>
 
             <button
                 className="bg-green-500 my-2"
