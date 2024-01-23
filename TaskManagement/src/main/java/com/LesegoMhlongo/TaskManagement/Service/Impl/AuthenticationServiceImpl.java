@@ -5,10 +5,7 @@ import com.LesegoMhlongo.TaskManagement.Model.UserEntity;
 import com.LesegoMhlongo.TaskManagement.Repository.UserRepository;
 import com.LesegoMhlongo.TaskManagement.Service.AuthenticationService;
 import com.LesegoMhlongo.TaskManagement.Service.JWTService;
-import com.LesegoMhlongo.TaskManagement.dto.JwtAuthenticationResponse;
-import com.LesegoMhlongo.TaskManagement.dto.RefreshTokenRequest;
-import com.LesegoMhlongo.TaskManagement.dto.SignInRequest;
-import com.LesegoMhlongo.TaskManagement.dto.SignUpRequest;
+import com.LesegoMhlongo.TaskManagement.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -71,6 +70,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         return null;
 
+    }
+
+    public List<UserEntity> findAllUsers(){
+        return userRepository.findAll();
+    }
+
+    public CustomUserDetails findUserByEmail(String email){
+        UserEntity user = userRepository.findByEmail(email).orElseThrow();
+        return new  CustomUserDetails(user);
     }
 
 }
