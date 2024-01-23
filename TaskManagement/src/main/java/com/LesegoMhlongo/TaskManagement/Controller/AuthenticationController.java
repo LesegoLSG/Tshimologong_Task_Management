@@ -35,4 +35,9 @@ public class AuthenticationController {
     public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest){
         return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
     }
+
+    @GetMapping("/test")
+    public String getString(){
+        return "public requests works";
+    }
 }
