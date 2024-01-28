@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const API_URL = "http://localhost:8080/api/v1/auth";
 
+//Sign up request
 export const signUp = async (userObject: any) => {
     return axios.post(API_URL + "/signup", userObject)
         .then((response) => {
@@ -15,7 +16,7 @@ export const signUp = async (userObject: any) => {
             throw error;
         });
 };
-
+//Sign in request
 export const signIn = async (userObject: any) => {
 
     return axios.post(API_URL + "/signin", userObject)
@@ -38,6 +39,8 @@ export const signIn = async (userObject: any) => {
         });
 };
 
+
+
 export const logout = () => {
     localStorage.removeItem("user");
 }
@@ -59,8 +62,47 @@ export const getCurrentUserEmail = () => {
     } catch (error) {
         console.log("UserByEmail error:", error);
     }
-
-
-
 }
+
+export const getRefreshTokenLocalStorage = () => {
+    try {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            const { refreshToken } = JSON.parse(storedUser);
+            return refreshToken;
+        }
+        return null;
+    } catch (error) {
+        console.error("Error retrieving access token:", error);
+        return null;
+    }
+}
+
+export const getAccessTokenLocalStorage = () => {
+    try {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            const { token } = JSON.parse(storedUser);
+            return token;
+        }
+        return null;
+    } catch (error) {
+        console.error("Error retrieving access token:", error);
+        return null;
+    }
+}
+
+export const Refresh = async (token: string) => {
+    console.log("Received token:", token);
+    try {
+        const response = await axios.post(API_URL + "/refresh", { token });
+        console.log("Refresh response:", response);
+        return response.data;
+    } catch (error) {
+        console.log("Error in refresh:", error);
+        throw error;
+    }
+};
+
+
 
