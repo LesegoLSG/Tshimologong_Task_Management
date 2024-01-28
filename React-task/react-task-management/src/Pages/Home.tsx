@@ -15,6 +15,7 @@ import { getCurrentUserEmail } from '../Components/RequestsToken/AuthService';
 import { logout } from '../Components/RequestsToken/AuthService';
 import authHeader from '../Components/RequestsToken/AuthHeader';
 import { useNavigate } from 'react-router-dom';
+import { Refresh, getRefreshTokenLocalStorage } from '../Components/RequestsToken/AuthService';
 
 
 //useContext
@@ -181,9 +182,18 @@ const Home = () => {
         navigate("/auth");
     }
 
+    const handleRefresh = async () => {
+        const token = getRefreshTokenLocalStorage();
+        console.log("---------------------------------------------------")
+        const response = await Refresh(token);
+        console.log("accessToken refresh1:", response); //Works like a charm
+        console.log("accessToken refresh:", response.data);
+    }
+
 
     return (
         <div className=" w-full min-h-screen flex flex-col justify-center items-center">
+            <button onClick={handleRefresh}>Refresh</button>
             <button onClick={Logout}> Logout</button>
             <h5 className="text-gray-500 text-sm">Manage Your Task With Us...</h5>
             <h1 className="text-2xl font-bold">Task Management</h1>
