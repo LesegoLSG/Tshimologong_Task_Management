@@ -81,6 +81,10 @@ const Login = () => {
                 </div>
             </div>
 
+            <div className="">
+                <a href="" className="no-underline">Forgot Password?</a>
+            </div>
+
             <h3>{loginDetails.email}</h3>
             <h3>{loginDetails.password}</h3>
             <button className="bg-red-500 my-2"
