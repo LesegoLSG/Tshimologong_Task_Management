@@ -21,6 +21,8 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
 
+
+
     @PostMapping("/signup")
     public ResponseEntity<UserEntity> signup(@RequestBody SignUpRequest signUpRequest){
         return ResponseEntity.ok(authenticationService.signup(signUpRequest));
