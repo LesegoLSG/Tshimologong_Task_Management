@@ -21,12 +21,15 @@ import { Refresh, getRefreshTokenLocalStorage } from '../Components/RequestsToke
 //useContext
 // import {AnimatorProvider} from '../Context/AnimatorContext';
 
+
+
 interface UserProps {
+    id: number,
     firstname: string,
     lastname: string,
     email: string,
     role: string,
-    tasks: []
+    tasks: TaskProps[];
 }
 
 const Home = () => {
@@ -46,22 +49,24 @@ const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage, setPostPerPage] = useState(4);
 
-
-    const lastPostIndex = currentPage * postsPerPage;
-    const firstPostIndex = lastPostIndex - postsPerPage;
-    const currentPosts = tasks.slice(firstPostIndex, lastPostIndex);
-
-    const [userList, setUserList] = useState("");
-
-    const [privateData, setPrivateData] = useState([]);
-
     const [user, setUser] = useState<UserProps>({
+        id: 0,
         firstname: '',
         lastname: '',
         email: '',
         role: '',
         tasks: []
     });
+
+    const lastPostIndex = currentPage * postsPerPage;
+    const firstPostIndex = lastPostIndex - postsPerPage;
+    const currentPosts = user.tasks.slice(firstPostIndex, lastPostIndex);
+
+    const [userList, setUserList] = useState("");
+
+    const [privateData, setPrivateData] = useState([]);
+
+
     //Testing the public posts
     useEffect(() => {
         const getStringTesting = async () => {
@@ -80,10 +85,13 @@ const Home = () => {
         const getUser = async () => {
             try {
                 const myNewUser = await PostService.getCurrentUser();
+                console.log("myNewUser:", myNewUser);
                 setUser(myNewUser);
+                setTasks(myNewUser.tasks)
+                console.log("====", myNewUser.tasks);
             } catch (Error) {
                 console.error("Something went wrong");
-                // setNewUser(null);
+                // setNewUser(null); 
             }
         };
         getUser();
@@ -96,23 +104,26 @@ const Home = () => {
 
     const addTask = async (task: TaskProps) => {
         console.log("Add button Clicked", task);
-        try {
-            const res = await fetch("http://localhost:8080/tasks/add", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(task)
+        const response = await PostService.postTaskToUser(user.id, task);
 
-            });
-            if (res.ok) {
-                const data = await res.json();
-                setTasks((prevTasks) => [...prevTasks, data])
-                console.log("New Task Added");
-            } else {
-                console.error("Failed to add task");
-            }
-        } catch (error) {
-            console.error("Error adding task:", error);
-        }
+        console.log("Added responses:", response);
+        // try {
+        //     const res = await fetch("http://localhost:8080/tasks/add", {
+        //         method: "POST",
+        //         headers: { "Content-Type": "application/json" },
+        //         body: JSON.stringify(task)
+
+        //     });
+        //     if (res.ok) {
+        //         const data = await res.json();
+        //         setTasks((prevTasks) => [...prevTasks, data])
+        //         console.log("New Task Added");
+        //     } else {
+        //         console.error("Failed to add task");
+        //     }
+        // } catch (error) {
+        //     console.error("Error adding task:", error);
+        // }
 
     }
 
@@ -226,7 +237,19 @@ const Home = () => {
                 <h1>{user.firstname}</h1>
                 <h1>{user.role}</h1>
                 <h1>{user.email}</h1>
-                <h1>{user.tasks}</h1>
+                <div>
+                    <h1>User Tasks:</h1>
+                    <ul>
+                        {user.tasks.map((task) => (
+                            <li key={task.id}>
+                                <p>Task: {task.task}</p>
+                                <p>Date: {task.date}</p>
+                                <p>Time: {task.time}</p>
+                                <p>Active: {task.active ? 'Yes' : 'No'}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
 
         </div>
