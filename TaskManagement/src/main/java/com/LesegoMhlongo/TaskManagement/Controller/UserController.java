@@ -1,15 +1,17 @@
 package com.LesegoMhlongo.TaskManagement.Controller;
 
 import com.LesegoMhlongo.TaskManagement.Model.UserEntity;
+import com.LesegoMhlongo.TaskManagement.Service.ITaskService;
 import com.LesegoMhlongo.TaskManagement.Service.Impl.AuthenticationServiceImpl;
-import com.LesegoMhlongo.TaskManagement.dto.CustomUserDetails;
+import com.LesegoMhlongo.TaskManagement.Service.Impl.UserService;
+import com.LesegoMhlongo.TaskManagement.dto.CustomUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -18,24 +20,33 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private AuthenticationServiceImpl authenticationService;
+    private UserService userService;
 
+    @Autowired
+    private ITaskService taskService;
 
+    @GetMapping("/getUserWithTasks/{userEmail}")
+    public ResponseEntity<CustomUser> getUserWithTasks(@PathVariable String userEmail) {
+        UserEntity user = userService.getUserWithTasks(userEmail);
+        if (user != null) {
+            CustomUser customUser = user.toCustomUser();
+            return ResponseEntity.ok(customUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping("/testing")
     public ResponseEntity<String> sayHello(){
         return ResponseEntity.ok("Hi user");
     }
 
-    @GetMapping("/getAll")
+
+
+    @GetMapping("findAll")
     public List<UserEntity> getAllUsers(){
-        System.out.println(authenticationService.findAllUsers());
-        return authenticationService.findAllUsers();
+        return userService.getUserList();
     }
 
-    @GetMapping("/findUserByEmail/{email}")
-    public ResponseEntity<CustomUserDetails> getUser(@PathVariable String email){
-        CustomUserDetails userDetails = authenticationService.findUserByEmail(email);
-        return ResponseEntity.ok(userDetails);
-    }
+
 }
