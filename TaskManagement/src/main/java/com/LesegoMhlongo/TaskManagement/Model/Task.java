@@ -1,5 +1,6 @@
 package com.LesegoMhlongo.TaskManagement.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Type;
 
@@ -18,14 +19,15 @@ public class Task {
     @Column
     private String task;
     @Column
-    private LocalDate date;
-    @Column(columnDefinition = "TIME(0)")
-    private LocalTime time;
+    private String date;
+    @Column
+    private String time;
     @Column
     private boolean active;
 
     @ManyToOne
     @JoinColumn(name="user_id")
+    @JsonBackReference
     private UserEntity user;
 
 
@@ -36,7 +38,7 @@ public class Task {
 
     //parameter constructor
 
-    public Task(String task, LocalDate date, LocalTime time, boolean active, UserEntity user) {
+    public Task(String task, String date, String time, boolean active, UserEntity user) {
         this.task = task;
         this.date = date;
         this.time = time;
@@ -61,19 +63,19 @@ public class Task {
         this.task = task;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public LocalTime getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(LocalTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
