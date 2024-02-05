@@ -6,7 +6,7 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAdd }) => {
     const [taskText, setTaskText] = useState("");
     const [taskDate, setTaskDate] = useState("");
     const [taskTime, setTaskTime] = useState("");
-
+    const [taskActive, setTaskActive] = useState(false);
 
 
 
@@ -19,6 +19,7 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAdd }) => {
             task: taskText,
             date: taskDate,
             time: taskTime,
+            active: taskActive
         }
 
         if (!newTask.task) {
@@ -32,6 +33,7 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAdd }) => {
         setTaskText("");
         setTaskDate("");
         setTaskTime("");
+        setTaskActive(false);
     }
 
     return (
@@ -60,6 +62,7 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAdd }) => {
                 value={taskTime}
                 onChange={(e) => setTaskTime(e.target.value)}
             />
+
             <Button color="#4287f5" text="Submit" />
         </form>
     )
