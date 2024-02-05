@@ -11,6 +11,7 @@ export interface TaskProps {
     task: string;
     date: string;
     time: string;
+    active: boolean;
     onDelete?: (id: number) => void;
     openModalProp?: () => void;
 }
