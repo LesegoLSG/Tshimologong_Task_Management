@@ -1,5 +1,7 @@
 package com.LesegoMhlongo.TaskManagement.Model;
 
+import com.LesegoMhlongo.TaskManagement.dto.CustomUser;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,8 @@ public class UserEntity implements UserDetails {
     private String password;
     private  Role role;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Task> task;
 
     @Override
@@ -112,5 +115,17 @@ public class UserEntity implements UserDetails {
 
     public void setTask(List<Task> task) {
         this.task = task;
+    }
+    //CustomUser class
+    public CustomUser toCustomUser() {
+        return new CustomUser(
+                this.id,
+                this.firstname,
+                this.lastname,
+                this.email,
+                this.password,
+                this.role,
+                this.task
+        );
     }
 }
