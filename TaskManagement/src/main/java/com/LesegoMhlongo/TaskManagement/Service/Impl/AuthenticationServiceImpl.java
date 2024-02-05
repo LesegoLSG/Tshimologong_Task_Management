@@ -72,13 +72,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     }
 
-    public List<UserEntity> findAllUsers(){
-        return userRepository.findAll();
-    }
 
-    public CustomUserDetails findUserByEmail(String email){
-        UserEntity user = userRepository.findByEmail(email).orElseThrow();
-        return new  CustomUserDetails(user);
-    }
 
 }
