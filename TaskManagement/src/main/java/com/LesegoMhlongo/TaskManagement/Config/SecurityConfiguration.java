@@ -40,12 +40,13 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.csrf(AbstractHttpConfigurer::disable) // It disables Cross-Site-Request Forgery(CSRF)
+        http.addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class)//This is important to guarantee that the response is not committed before your filter has a chance to handle it.
+        .csrf(AbstractHttpConfigurer::disable) // It disables Cross-Site-Request Forgery(CSRF)
                 .authorizeHttpRequests(request -> request.requestMatchers("api/v1/auth/**")
                         .permitAll()
                         .requestMatchers("api/v1/admin/**").hasAnyAuthority(Role.ADMIN.name())
                         .requestMatchers("api/v1/user/**").hasAnyAuthority(Role.USER.name())
-//                        .requestMatchers("api/v1/user/getAll").hasAnyAuthority(Role.USER.name())
+                        .requestMatchers("tasks/**").hasAnyAuthority(Role.USER.name())
                         .anyRequest().authenticated())
 
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
