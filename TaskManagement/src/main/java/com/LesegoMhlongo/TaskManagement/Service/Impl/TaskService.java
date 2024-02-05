@@ -15,52 +15,34 @@ import java.util.Optional;
 public class TaskService implements ITaskService {
 
     @Autowired
-    private TaskRepository repo;
+    private TaskRepository taskRepository;
 
+
+
+    @Autowired
     private UserRepository userRepository;
 
-    //Save a task
-    @Override
-    public Task saveTask(Task task) {
-        return repo.save(task);
+//    public UserEntity addTaskToUser(Task task,int userId){
+//        Optional<UserEntity> optionaluser = userRepository.findById(userId);
+//        if(optionaluser.isPresent()){
+//           UserEntity user = optionaluser.get();
+//           task.setUser(user);
+//
+//           taskRepository.save(task);
+//
+//            // Optionally, you may want to update the user's task list
+//            user.getTask().add(task);
+//            userRepository.save(user);
+//
+//           return user;
+//        }else{
+//            // Handle the case where the user with the provided ID is not found
+//            throw new IllegalArgumentException("User not found with ID: " + userId);
+//        }
+//    }
+
+    public Task addTask(Task task){
+        return taskRepository.save(task);
     }
 
-    //Get all tasks
-    @Override
-    public List<Task> TaskList() {
-        List<Task> list ;
-        list= repo.findAll();
-        return list;
-    }
-    //Get a single task
-    @Override
-    public Task getSingleTask(int id) {
-        Task task = repo.findById(id).get();
-        return task;
-    }
-    //Update a task
-    @Override
-    public void updateSingleTask(int id, Task updatedTask) {
-        //Get a task
-        Task existingTask = repo.findById(id).orElse(null);
-        //Update a task
-        if(existingTask != null){
-            existingTask.setTask(updatedTask.getTask());
-            existingTask.setDate(updatedTask.getDate());
-            existingTask.setTime(updatedTask.getTime());
-
-            //Save a updated task
-            saveTask(existingTask);
-        }
-
-
-
-
-    }
-
-    //Delete a task
-    public void deleteSingleTask(int id){
-        Task task = repo.findById(id).get();
-        repo.delete(task);
-    }
 }
