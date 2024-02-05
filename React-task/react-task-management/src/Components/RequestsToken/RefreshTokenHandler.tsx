@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080/api/v1',
+    baseURL: 'http://localhost:8080/api/v1/',
 });
 
 api.interceptors.request.use(
     (config) => {
         const token = getAccessTokenLocalStorage();
+        console.log("Get access token from localStage:", token);
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -47,6 +48,7 @@ api.interceptors.response.use(
                 originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
                 // Retry the original request
+                console.log("OrginalRequest:", originalRequest);
                 return api(originalRequest);
             } catch (refreshError) {
                 // Handle refresh token error (e.g., log out the user)
