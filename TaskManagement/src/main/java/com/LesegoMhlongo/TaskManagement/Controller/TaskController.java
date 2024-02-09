@@ -17,6 +17,9 @@ import java.util.Optional;
 @RequestMapping("api/v1/tasks")
 @CrossOrigin
 public class TaskController {
+
+    @Autowired
+    private ITaskService iTaskService;
     @Autowired
     private TaskRepository taskRepository;
 
@@ -47,6 +50,24 @@ public class TaskController {
         } else {
             // Handle the case where the user with the provided ID is not found
             throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
+    }
+    @DeleteMapping("/deleteTask/{taskId}")
+    public ResponseEntity<String> deleteTask(@PathVariable int taskId){
+        try{
+            iTaskService.deleteTask(taskId);
+            return ResponseEntity.ok("Task deleted successfully");
+        }catch(Throwable e){
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+    @PutMapping("/updateTask/{taskId}")
+    public ResponseEntity<Task> updateTask(@PathVariable int taskId, @RequestBody Task newTask){
+        try{
+            Task updatedTaskResults = iTaskService.updateTask(taskId,newTask);
+            return ResponseEntity.ok(updatedTaskResults);
+        }catch(Throwable e){
+            return ResponseEntity.status(404).body(null);
         }
     }
 }

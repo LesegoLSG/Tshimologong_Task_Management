@@ -40,8 +40,7 @@ const Home = () => {
     const [openModal, setOpenModal] = useState(false);
     const [editTask, setEditTask] = useState<TaskProps | null>(null);
 
-    const [tasks, setTasks] = useState<TaskProps[]>([
-    ])
+
 
 
 
@@ -57,6 +56,8 @@ const Home = () => {
         role: '',
         tasks: []
     });
+
+    const [tasks, setTasks] = useState<TaskProps[]>(user.tasks)
 
     const lastPostIndex = currentPage * postsPerPage;
     const firstPostIndex = lastPostIndex - postsPerPage;
@@ -107,35 +108,32 @@ const Home = () => {
         const response = await PostService.postTaskToUser(user.id, task);
 
         console.log("Added responses:", response);
-        // try {
-        //     const res = await fetch("http://localhost:8080/tasks/add", {
-        //         method: "POST",
-        //         headers: { "Content-Type": "application/json" },
-        //         body: JSON.stringify(task)
+        if (response) {
+            // Update tasks state with the newly added task
+            setTasks((prevTasks) => [...prevTasks, response.data]);
+            setShowAddTask(false);
+            // Refresh the page or any other logic you want
+            // window.location.reload();
 
-        //     });
-        //     if (res.ok) {
-        //         const data = await res.json();
-        //         setTasks((prevTasks) => [...prevTasks, data])
-        //         console.log("New Task Added");
-        //     } else {
-        //         console.error("Failed to add task");
-        //     }
-        // } catch (error) {
-        //     console.error("Error adding task:", error);
-        // }
+
+
+        }
+
 
     }
 
 
     const deleteTask = async (id?: number): Promise<void> => {
-        console.log("delete: ", id)
-        await fetch(`http://localhost:8080/tasks/delete/${id}`, {
-            method: 'DELETE'
-        })
+        console.log("delete: ", id);
 
+        const response = await PostService.deleteTask(id);
 
-        setTasks(tasks.filter((task) => task.id !== id))
+        if (response) {
+            console.log("Before deletion:", tasks);
+            setTasks((tasks) => tasks.filter((task) => task.id !== id));
+            console.log("After deletion:", tasks);
+        }
+
     }
 
     const handleBtnChange = (): void => {
@@ -157,29 +155,36 @@ const Home = () => {
 
     }
 
-    const Update = async (receiveTask: TaskProps): Promise<void> => {
+    const Update = async (newTask: TaskProps): Promise<void> => {
+        console.log("It reaches", newTask.id);
+        console.log("It reaches", newTask.task);
 
-        console.log("It reaches", receiveTask.task);
-        try {
-            const res = await fetch(`http://localhost:8080/tasks/update/${receiveTask.id}`, {
-
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(receiveTask),
-
-            });
-            if (res.ok) {
-                setTasks((prevTasks) => prevTasks.map((task) => (task.id === receiveTask.id ? receiveTask : task)));
-                console.log("Task updated successfully");
-            } else {
-                console.error("Failed to update task");
-            }
-
-        } catch (error) {
-            console.error("Error updating task:", error);
+        const response = await PostService.updateTask(newTask.id, newTask);
+        if (response) {
+            console.log(response.data);
         }
+
+
+        // try {
+        //     const res = await fetch(`http://localhost:8080/tasks/update/${receiveTask.id}`, {
+
+        //         method: 'PUT',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(receiveTask),
+
+        //     });
+        //     if (res.ok) {
+        //         setTasks((prevTasks) => prevTasks.map((task) => (task.id === receiveTask.id ? receiveTask : task)));
+        //         console.log("Task updated successfully");
+        //     } else {
+        //         console.error("Failed to update task");
+        //     }
+
+        // } catch (error) {
+        //     console.error("Error updating task:", error);
+        // }
 
 
     }
@@ -232,24 +237,18 @@ const Home = () => {
             }
 
             <div>
-                <h1>{userList}</h1>
-                <h1>{privateData}</h1>
-                <h1>{user.firstname}</h1>
-                <h1>{user.role}</h1>
-                <h1>{user.email}</h1>
-                <div>
-                    <h1>User Tasks:</h1>
-                    <ul>
-                        {user.tasks.map((task) => (
-                            <li key={task.id}>
-                                <p>Task: {task.task}</p>
-                                <p>Date: {task.date}</p>
-                                <p>Time: {task.time}</p>
-                                <p>Active: {task.active ? 'Yes' : 'No'}</p>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                <h1>User Tasks:</h1>
+                <ul>
+                    {user.tasks.map((task) => (
+                        <li key={task.id}>
+                            <p>Task: {task.id}</p>
+                            <p>Task: {task.task}</p>
+                            <p>Date: {task.date}</p>
+                            <p>Time: {task.time}</p>
+                            <p>Active: {task.active ? 'Yes' : 'No'}</p>
+                        </li>
+                    ))}
+                </ul>
             </div>
 
         </div>

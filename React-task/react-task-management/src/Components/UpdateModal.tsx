@@ -8,6 +8,7 @@ const UpdateModal = ({ taskToEdit, closeModalProp, onEdit }: UpdateModalProps) =
     const [textPopulated, setTextPopulated] = useState(taskToEdit?.task);
     const [datePopulated, setDatePopulated] = useState(taskToEdit?.date);
     const [timePopulated, setTimePopulated] = useState(taskToEdit?.time);
+    const [activePopulated, setActivePopulated] = useState(true);
 
     const updateData = () => {
         // e.preventDefault()
@@ -18,10 +19,12 @@ const UpdateModal = ({ taskToEdit, closeModalProp, onEdit }: UpdateModalProps) =
             ...taskToEdit,
             task: textPopulated,
             date: datePopulated,
-            time: timePopulated
+            time: timePopulated,
+            active: activePopulated
         }
         console.log("1")
         onEdit(newObject);
+        console.log("newObject:", newObject);
         console.log("2")
 
 

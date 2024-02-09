@@ -40,9 +40,39 @@ public class TaskService implements ITaskService {
 //            throw new IllegalArgumentException("User not found with ID: " + userId);
 //        }
 //    }
-
+    //Adding a task
     public Task addTask(Task task){
         return taskRepository.save(task);
+    }
+
+    //Deleting a task
+    public void deleteTask(int taskId) throws Exception {
+        Optional<Task> optionalTask = taskRepository.findById(taskId);
+        if(optionalTask.isPresent()){
+            Task task = optionalTask.get();
+            taskRepository.delete(task);
+        }else{
+            throw new IllegalArgumentException("Task not found with ID: " + taskId);
+        }
+    }
+
+    @Override
+    public Task updateTask(int taskId, Task newTask) throws Exception {
+        Optional<Task> optionalTask = taskRepository.findById(taskId);
+
+        if(optionalTask.isPresent()){
+            Task existingTask = optionalTask.get();
+
+            existingTask.setTask(newTask.getTask());
+            existingTask.setDate(newTask.getDate());
+            existingTask.setTime(newTask.getTime());
+            existingTask.setActive(newTask.isActive());
+
+            return taskRepository.save(existingTask);
+        }else{
+            throw new Exception("Could not update task with id:" + taskId);
+        }
+
     }
 
 }

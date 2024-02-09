@@ -53,6 +53,29 @@ const PostService = {
         } catch (error) {
             console.log(error);
         }
+    },
+
+    deleteTask: async (taskId: number | undefined) => {
+        try {
+            const response = await api.delete(`tasks/deleteTask/${taskId}`);
+            console.log("delete:", response);
+            console.log("delete:", response.data);
+            return response.data;
+        } catch (error) {
+            console.log("In delete:", error);
+            throw error;
+        }
+    },
+
+    updateTask: async (taskId: number | undefined, task: TaskProps) => {
+        try {
+            const response = await api.put(`tasks/updateTask/${taskId}`, task);
+            console.log("updatePost:", response);
+            console.log("updatePost:", response.data);
+            return response;
+        } catch (error) {
+            throw error;
+        }
     }
 };
 
