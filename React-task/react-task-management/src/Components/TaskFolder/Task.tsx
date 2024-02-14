@@ -15,7 +15,7 @@ const Task = ({ task, onDelete, openModalProp }: { task: TaskProps; onDelete: (i
                 <div className="bg-green-200 ">
                     <h3 className="font-bold text-lg">{task.task} </h3>
 
-                    <p className="">{task.date} {task.time}</p>
+                    <p className="">{task.date.toString()} {task.time}</p>
                 </div>
             </div>
 

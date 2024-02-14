@@ -243,7 +243,7 @@ const Home = () => {
                         <li key={task.id}>
                             <p>Task: {task.id}</p>
                             <p>Task: {task.task}</p>
-                            <p>Date: {task.date}</p>
+                            <p>Date: {task.date.toString()}</p>
                             <p>Time: {task.time}</p>
                             <p>Active: {task.active ? 'Yes' : 'No'}</p>
                         </li>

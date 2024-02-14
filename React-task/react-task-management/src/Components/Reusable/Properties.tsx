@@ -9,7 +9,7 @@ export interface ButtonProps {
 export interface TaskProps {
     id?: number;
     task: string;
-    date: string;
+    date: Date;
     time: string;
     active: boolean;
     onDelete?: (id: number) => void;

@@ -63,8 +63,8 @@ const UpdateModal = ({ taskToEdit, closeModalProp, onEdit }: UpdateModalProps) =
                         className=" w-full h-8 my-2 mx-2 rounded-md border-solid border hover:border-black border-[#4287f5]"
                         type="text"
                         placeholder="Add Your Task"
-                        value={datePopulated}
-                        onChange={(e) => setDatePopulated(e.target.value)}
+                    // value={datePopulated}
+                    // onChange={(e) => setDatePopulated(e.target.value)}
                     />
                     <label className="mx-2">Time</label>
                     <input
